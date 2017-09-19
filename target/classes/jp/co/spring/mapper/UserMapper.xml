@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.spring.mapper.UserMapper">
+
+	<resultMap type="jp.co.spring.entity.User" id="UserResult">
+		<result property="id" column="id" />
+		<result property="loginID" column="loginID" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="branch" column="branch" />
+		<result property="position" column="position" />
+	</resultMap>
+
+	<!-- ================
+		ユーザー登録
+	================ -->
+    <insert id="insertUser" parameterType="map">
+    INSERT INTO user
+    	( loginID ,name ,password ,branch ,position )
+    VALUES
+    	( #{loginId} ,#{name} ,#{password} ,#{branch} ,#{position} )
+    </insert>
+
+   <!-- =================
+		全ユーザー取得
+	================= -->
+	<select id="getAll" parameterType="int" resultMap="UserResult">
+	select * from user
+	</select>
+
+	<!-- =================
+		ユーザー認証
+	================= -->
+	<select id="getLoginUser" parameterType="int" resultMap="UserResult">
+	select *
+		from user
+	where
+		 id = #{id}
+		,password = #{password}
+	</select>
+
+	<!-- =================
+	   ユーザー更新(id)
+	================= -->
+
+	<update id="updateUser">
+	update
+		user
+	set
+		  loginID = #{loginId}
+		, name = #{name}
+		, password = #{password}
+		, branch = #{branch}
+		, position = #{position}
+	 where
+	 	id = #{id}
+	</update>
+
+	<!-- =================
+	   ユーザー削除(id)
+	================= -->
+	<delete id="deleteUser" parameterType="int">
+	delete from
+		user
+	where
+		id = #{id}
+	</delete>
+
+</mapper>
+
